@@ -10,6 +10,5 @@
 export interface OrderParts {
   __typename: "Order";
   id: number;
-  createdAt: any;
   total: number | null;
 }

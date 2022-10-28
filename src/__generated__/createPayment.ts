@@ -10,7 +10,7 @@ import { CreatePaymentInput } from "./globalTypes";
 // ====================================================
 
 export interface createPayment_createPayment {
-  __typename: "CreatePaymentOuput";
+  __typename: "CreatePaymentOutput";
   ok: boolean;
   error: string | null;
 }
