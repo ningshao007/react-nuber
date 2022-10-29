@@ -1,10 +1,18 @@
+import { makeVar } from '@apollo/client';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import { LOCALSTORAGE_TOKEN } from '../constants';
 import { useMe } from '../hooks/useMe';
 import nuberLogo from '../images/logo.svg';
 
 export const Header: React.FC = () => {
 	const { data } = useMe();
+	const history = useHistory();
+
+	const handleLogout = () => {
+		localStorage.removeItem(LOCALSTORAGE_TOKEN);
+	};
+
 	return (
 		<>
 			{!data?.me.verified && (
@@ -17,9 +25,12 @@ export const Header: React.FC = () => {
 					<Link to='/'>
 						<img src={nuberLogo} className='w-44' alt='Nuber Eats' />
 					</Link>
+					<span onClick={handleLogout} className='cursor-pointer ml-auto text-red-500 text-base mr-2'>
+						退出登陆
+					</span>
 					<span className='text-xs'>
 						<Link to='/edit-profile'>
-							<span className='cursor-pointer text-blue-600 text-xl mr-2'>exit profile</span>
+							<span className='cursor-pointer text-blue-600 text-xl mr-2'>edit profile</span>
 						</Link>
 					</span>
 				</div>

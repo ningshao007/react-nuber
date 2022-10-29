@@ -1,4 +1,5 @@
 import { gql, useMutation } from '@apollo/client';
+import { useTitle } from 'ahooks';
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useForm } from 'react-hook-form';
@@ -28,6 +29,8 @@ interface IForm {
 }
 
 export const AddDish = () => {
+	useTitle('Add Dish | Nuber Eats');
+
 	const { restaurantId } = useParams<IParams>();
 	const history = useHistory();
 	const [createDishMutation, { loading }] = useMutation<createDish, createDishVariables>(CREATE_DISH_MUTATION, {
@@ -75,9 +78,6 @@ export const AddDish = () => {
 	};
 	return (
 		<div className='container flex flex-col items-center mt-52'>
-			{/* <Helmet> */}
-			<title>Add Dish | Nuber Eats</title>
-			{/* </Helmet> */}
 			<h4 className='font-semibold text-2xl mb-3'>Add Dish</h4>
 			<form onSubmit={handleSubmit(onSubmit)} className='grid max-w-screen-sm gap-3 mt-5 w-full mb-5'>
 				<input className='input' type='text' name='name' placeholder='Name' ref={register({ required: 'Name is required.' })} />

@@ -94,7 +94,7 @@ export interface LoginInput {
 }
 
 export interface MyRestaurantInput {
-  id: number;
+  id?: number | null;
 }
 
 export interface OrderItemOptionInputType {

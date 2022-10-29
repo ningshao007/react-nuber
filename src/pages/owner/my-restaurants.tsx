@@ -1,4 +1,5 @@
 import { gql, useQuery } from '@apollo/client';
+import { useTitle } from 'ahooks';
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
@@ -20,12 +21,11 @@ export const MY_RESTAURANTS_QUERY = gql`
 `;
 
 export const MyRestaurants = () => {
+	useTitle('My Restaurants | Nuber Eats');
+
 	const { data } = useQuery<myRestaurants>(MY_RESTAURANTS_QUERY);
 	return (
 		<div>
-			{/* <Helmet> */}
-			<title>My Restaurants | Nuber Eats</title>
-			{/* </Helmet> */}
 			<div className='max-w-screen-2xl mx-auto mt-32'>
 				<h2 className='text-4xl font-medium mb-10'>My Restaurants</h2>
 				{data?.myRestaurants.ok && data.myRestaurants.restaurants.length === 0 ? (

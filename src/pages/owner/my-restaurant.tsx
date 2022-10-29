@@ -1,6 +1,5 @@
 import { gql, useMutation, useQuery, useSubscription } from '@apollo/client';
 import React, { useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
 import { Link, useHistory, useParams } from 'react-router-dom';
 import { Dish } from '../../components/dish';
 import { VictoryAxis, VictoryChart, VictoryLabel, VictoryLine, VictoryPie, VictoryTheme, VictoryTooltip, VictoryVoronoiContainer } from 'victory';
@@ -9,6 +8,7 @@ import { useMe } from '../../hooks/useMe';
 import { createPayment, createPaymentVariables } from '../../__generated__/createPayment';
 import { myRestaurant, myRestaurantVariables } from '../../__generated__/myRestaurant';
 import { pendingOrders } from '../../__generated__/pendingOrders';
+import { useExternal, useTitle } from 'ahooks';
 
 export const MY_RESTAURANT_QUERY = gql`
 	query myRestaurant($input: MyRestaurantInput!) {
@@ -54,6 +54,7 @@ interface IParams {
 }
 
 export const MyRestaurant = () => {
+	const status = useExternal('https://cdn.paddle.com/paddle/paddle.js');
 	const { id } = useParams<IParams>();
 	const { data } = useQuery<myRestaurant, myRestaurantVariables>(MY_RESTAURANT_QUERY, {
 		variables: {
@@ -62,6 +63,9 @@ export const MyRestaurant = () => {
 			},
 		},
 	});
+
+	useTitle(`${data?.myRestaurant.restaurant?.name || 'Loading...'} | Nuber Eats`);
+
 	const onCompleted = (data: createPayment) => {
 		if (data.createPayment.ok) {
 			alert('Your restaurant is being promoted!');
@@ -101,10 +105,6 @@ export const MyRestaurant = () => {
 	}, [history, subscriptionData]);
 	return (
 		<div>
-			{/* <Helmet> */}
-			<title>{data?.myRestaurant.restaurant?.name || 'Loading...'} | Nuber Eats</title>
-			<script src='https://cdn.paddle.com/paddle/paddle.js'></script>
-			{/* </Helmet> */}
 			<div className='checkout-container'></div>
 			<div
 				className='  bg-gray-700  py-28 bg-center bg-cover'
